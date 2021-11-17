@@ -7,9 +7,23 @@
 //
 
 #include <iostream>
+#include "OneDimensionArray.hpp"
+#include "TwoDimensionArray.hpp"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    const int n = 5, m = 7;
+    TwoDimensionArray tda(n, m);
+    for(int i = 0; i < n; i ++) {
+        for(int j = 0; j < m; j ++) {
+            tda[i][j] = i * m + j + 1;
+        }
+    }
+    for(int i = 0; i < n; i ++) {
+        for(int j = 0; j < m; j ++) {
+            std::cout << tda[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
     return 0;
 }

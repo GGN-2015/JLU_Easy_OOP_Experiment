@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BA1831A72744D7BA00940B0E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA1831A62744D7BA00940B0E /* main.cpp */; };
 		BA1831AF2744D7D700940B0E /* TwoDimensionArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA1831AD2744D7D700940B0E /* TwoDimensionArray.cpp */; };
+		BA1831B22744DA8C00940B0E /* OneDimensionArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA1831B02744DA8C00940B0E /* OneDimensionArray.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		BA1831A62744D7BA00940B0E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		BA1831AD2744D7D700940B0E /* TwoDimensionArray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TwoDimensionArray.cpp; sourceTree = "<group>"; };
 		BA1831AE2744D7D700940B0E /* TwoDimensionArray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TwoDimensionArray.hpp; sourceTree = "<group>"; };
+		BA1831B02744DA8C00940B0E /* OneDimensionArray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OneDimensionArray.cpp; sourceTree = "<group>"; };
+		BA1831B12744DA8C00940B0E /* OneDimensionArray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OneDimensionArray.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 				BA1831A62744D7BA00940B0E /* main.cpp */,
 				BA1831AD2744D7D700940B0E /* TwoDimensionArray.cpp */,
 				BA1831AE2744D7D700940B0E /* TwoDimensionArray.hpp */,
+				BA1831B02744DA8C00940B0E /* OneDimensionArray.cpp */,
+				BA1831B12744DA8C00940B0E /* OneDimensionArray.hpp */,
 			);
 			path = IndexedArraySimulation;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA1831B22744DA8C00940B0E /* OneDimensionArray.cpp in Sources */,
 				BA1831A72744D7BA00940B0E /* main.cpp in Sources */,
 				BA1831AF2744D7D700940B0E /* TwoDimensionArray.cpp in Sources */,
 			);
