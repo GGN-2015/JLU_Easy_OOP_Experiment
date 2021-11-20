@@ -28,20 +28,19 @@ void MergeSort::merge(SortElement** arrLeft, SortElement** arrRight, int leftCou
 	SortElement** arrTmp = new SortElement*[totalCount];
 	while(leftUsed < leftCount && rightUsed < rightCount) {
 		if(arrRight[rightUsed] -> less(*arrLeft[leftUsed])) { // right side is less than right side
-			arrTmp[totalUsed ++] = new SortElement(*arrRight[rightUsed ++]);
+			arrTmp[totalUsed ++] = arrRight[rightUsed ++];
 		}else {
-			arrTmp[totalUsed ++] = new SortElement(*arrLeft[leftUsed ++]);
+			arrTmp[totalUsed ++] = arrLeft[leftUsed ++];
 		}
 	}
 	while(leftUsed < leftCount) {
-		arrTmp[totalUsed ++] = new SortElement(*arrLeft[leftUsed ++]);
+		arrTmp[totalUsed ++] = arrLeft[leftUsed ++];
 	}
 	while(rightUsed < rightCount) {
-		arrTmp[totalUsed ++] = new SortElement(*arrRight[rightUsed ++]);
+		arrTmp[totalUsed ++] = arrRight[rightUsed ++];
 	}
 	
 	for(int i = 0; i < totalCount; i ++) {
-		delete arrLeft[i];
 		arrLeft[i] = arrTmp[i]; // copy the new array into the old array
 	}
 }
