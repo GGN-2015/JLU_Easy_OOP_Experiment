@@ -1,6 +1,9 @@
-// MergeSort.cpp
+// MergeSort.cpp 
 
 #ifndef ONLINE_JUDGE
+	#include <algorithm>
+	
+	#include "DoubleSortElement.h"
 	#include "SortElement.h"
 	#include "MergeSort.h"
 #endif
@@ -9,8 +12,8 @@ void MergeSort::mergeSort(SortElement** array, int elementCount) { // sort [0 ..
 	// if elementCount <= 1, you do not need to sort
 	if(elementCount > 1) {
 		if(elementCount == 2) {
-			if(array[1] -> less(*array[0])) { // right is less than left
-				array[0] -> swap(*array[1]);
+			if((array[1]) -> less(*array[0])) { // right is less than left
+				std::swap(array[0], array[1]);
 			}
 		}else {
 			int mid = elementCount >> 1; // divide into [0 .. mid - 1], [mid, r]
@@ -43,5 +46,6 @@ void MergeSort::merge(SortElement** arrLeft, SortElement** arrRight, int leftCou
 	for(int i = 0; i < totalCount; i ++) {
 		arrLeft[i] = arrTmp[i]; // copy the new array into the old array
 	}
+	delete[] arrTmp; // remember to clear memory
 }
 

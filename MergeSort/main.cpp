@@ -4,6 +4,7 @@
 
 #ifndef ONLINE_JUDGE // because I want to test this program on luogu
 	#include "SortElement.h"
+	#include "DoubleSortElement.h"
 	#include "MergeSort.h"
 #endif
 
@@ -20,23 +21,23 @@ int main() {
 	SortElement** array = new SortElement*[n]; // create an N elements array
 	
 	#ifndef ONLINE_JUDGE
-		std::cout << "Input " << n << " integers:";
+		std::cout << "Input " << n << " floats:";
 	#endif
 	
 	for(int i = 0; i < n; i ++) {
-		int tmp; std::cin >> tmp; // input all numbers
-		array[i] = new SortElement(tmp);
+		double tmp; std::cin >> tmp; // input all numbers
+		array[i] = new DoubleSortElement(tmp);
 	}
 	
-	MergeSort::mergeSort(array, n);
+	MergeSort::mergeSort(array, n); // ! function less can not do what I want
 	
 	#ifndef ONLINE_JUDGE
 		std::cout << "[sorted]: ";
 	#endif
 	
 	for(int i = 0; i < n; i ++) { // output the sortted values
-		int tmp = int(*array[i]);
-		std::cout << tmp << " ";
+		array[i] -> showData(std::cout);
+		std::cout << " ";
 	}
 	std::cout << std::endl;
 	return 0;
