@@ -22,7 +22,8 @@ void App::initialize() {
     if(!version) { // 版本和 
         std::cout << "App::initialize(): version not match with resource!" << std::endl;
     }
-    // system("pause");
+    system("pause");
+    system("cls");
 }
 
 void App::run() { // 运行整个 App 

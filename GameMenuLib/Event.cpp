@@ -1,36 +1,61 @@
 #include <conio.h>
+#include <cstdio>
+#include <ctime>
+#include <windows.h>
 
+#include "Console.h"
 #include "Event.h"
 #include "IMenu.h"
 
-Event::Event() { // 暂时使用 conio.h 中提供的函数进行输入 
-    char ch = getch();
-    mKeyLeft  = (ch == 'a'  || ch == 'A');
-    mKeyRight = (ch == 'd'  || ch == 'D');
-    mKeyUp    = (ch == 'w'  || ch == 'W');
-    mKeyDown  = (ch == 's'  || ch == 'S');
-    mKeyEnter = (ch == '\n' || ch == '\r'); // 检测是否是指定的按键被按下了 
+KeyList Event::keyListNow;
+KeyList Event::keyListLast;
+
+void KeyList::getKeyList() {
+    mKeyLeft  = Console::keyDown(VK_LEFT);
+    mKeyRight = Console::keyDown(VK_RIGHT);
+    mKeyUp    = Console::keyDown(VK_UP);
+    mKeyDown  = Console::keyDown(VK_DOWN);
+    mKeyEnter = Console::keyDown(VK_RETURN); // 检测是否是指定的按键被按下了 
+    mKeyEsc   = Console::keyDown(VK_ESCAPE);
 }
 
+void KeyList::clearKeyList() {
+    mKeyLeft  = Console::keyDown(VK_LEFT);
+    mKeyRight = Console::keyDown(VK_RIGHT);
+    mKeyUp    = Console::keyDown(VK_UP);
+    mKeyDown  = Console::keyDown(VK_DOWN);
+    mKeyEnter = Console::keyDown(VK_RETURN); // 检测是否是指定的按键被按下了 
+    mKeyEsc   = Console::keyDown(VK_ESCAPE);
+}
+
+Event::Event() { // 暂时使用 conio.h 中提供的函数进行输入 
+    keyListLast = keyListNow;
+    keyListNow.getKeyList(); // 获取新的按键向量 
+}       
+        
 bool Event::isLeft() const { // 检测是否是向左移动的操作 
-    return mKeyLeft;
+    return keyListLast.mKeyLeft && !keyListNow.mKeyLeft;
 }
 
 bool Event::isRight() const { // 检测是否是向右移动的操作 
-    return mKeyRight;
+    return keyListLast.mKeyRight && !keyListNow.mKeyRight;
 }
 
 bool Event::isUp() const { // 检测是否是向上移动的操作 
-    return mKeyUp;
+    return keyListLast.mKeyUp && !keyListNow.mKeyUp;
 }
 
 bool Event::isDown() const { // 检测是否是向下移动的操作 
-    return mKeyDown;
+    return keyListLast.mKeyDown && !keyListNow.mKeyDown;
 }
 
 bool Event::isConfirm() const { // 检测是否是确认操作 
     // 此处将来可能会被修改 
-    return mKeyEnter;
+    return keyListLast.mKeyEnter && !keyListNow.mKeyEnter;
+}
+
+bool Event::isEsc() const { // 检测 Esc 键是否被按下了 
+    return keyListLast.mKeyEsc && !keyListNow.mKeyEsc;
 }
 
 void Event::operateIMenu(IMenu* imenu) const { // 根据 event 操作 imenu 
@@ -40,5 +65,9 @@ void Event::operateIMenu(IMenu* imenu) const { // 根据 event 操作 imenu
     if(isDown()) {
         imenu -> nextTerm(); // 光标下移一个条目 
     }
+}
+
+void Event::inactivate() {
+    keyListNow.clearKeyList(); // 清空之前的按压事件 
 }
 

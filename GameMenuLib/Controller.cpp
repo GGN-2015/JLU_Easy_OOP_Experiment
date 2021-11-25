@@ -7,6 +7,7 @@
 #include "MainMenu.h"
 #include "MenuMgr.h"
 #include "SettingsMenu.h"
+#include "UnfinishedMenu.h"
 
 void Controller::processIMenu(IMenu* imenu) { // 处理 imenu 的输入事件 
     Event event;               // 获取当前的所有事件 
@@ -27,12 +28,10 @@ void Controller::processMainMenu(MainMenu* mainMenu) { // 处理 imenu 的输入事件
         int id = mainMenu -> getActiveTermId();
         switch(id) {
             case MainMenu::NewGame:
-                std::cout << "Todo: NewGame" << std::endl;
-                system("pause");
+                MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
                 break;
             case MainMenu::SaveLoad: // 读取存档 
-                std::cout << "Todo: SaveLoad" << std::endl;
-                system("pause");
+                MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
                 break;
             case MainMenu::Settings: // 进行设置 
                 MenuMgr::getInstance().pushMenuStack(new SettingsMenu); // 设置页面进栈 
@@ -59,3 +58,11 @@ void Controller::processSettingsMenu(SettingsMenu* settingsMenu) {
     }
 }
 
+void Controller::processUnfinishedMenu(UnfinishedMenu* unfinishedMenu) {
+    Event event;                        // 获取当前的所有事件 
+    event.operateIMenu(unfinishedMenu); // 根据事件对 mainMenu 进行调整，暂时使用 IMenu 的方法 
+    
+    if(event.isConfirm()) {
+        MenuMgr::getInstance().popMenuStack(); // 退出当前页面 
+    }
+}

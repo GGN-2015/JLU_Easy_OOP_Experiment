@@ -1,7 +1,10 @@
 #include <stack>
 
+#include "Event.h"
 #include "MainMenu.h"
 #include "MenuMgr.h"
+#include "Screen.h"
+#include "View.h"
 
 MenuMgr& MenuMgr::getInstance() { // 菜单管理器采用静态单例 
     static MenuMgr menuMgr;
@@ -20,11 +23,15 @@ void MenuMgr::popMenuStack() {
     if(mMenuStack.size() > 0) {  // 我们可以认为 == 0 的情况一定不会出现 
         delete mMenuStack.top(); // 在弹栈时清空对应的储存单元 
         mMenuStack.pop();        // 因为我们要求 App 中遇到 IMenu = nullptr 时就会立即退出 
+        View::getScreen() -> clearAll();
+        // Event::inactivate();     // 在操作的瞬间，让事件感应器失活 
     }
 }
 
 void MenuMgr::pushMenuStack(IMenu* imenu) { // 向页面栈中压入一个元素: push(new MenuType); 
     mMenuStack.push(imenu);
+    View::getScreen() -> clearAll();
+    // Event::inactivate();
 }
 
 MenuMgr::MenuMgr() {

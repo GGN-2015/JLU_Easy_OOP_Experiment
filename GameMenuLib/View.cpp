@@ -2,64 +2,108 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 #include "IMenu.h"
 #include "MainMenu.h"
+#include "Screen.h"
 #include "Scroll.h"
 #include "SettingsMenu.h"
+#include "UnfinishedMenu.h"
 #include "View.h"
 
+Screen View::mScreen = Screen(0, 0, MAX_HEIGHT, MAX_WIDTH);
+
 void View::showIMenu(const IMenu* imenu) {
-    system("cls");
-    std::cout << "+----------------------------------------+" << std::endl << std::endl;
-    std::cout << "  " << imenu -> getTitle() << std::endl << std::endl; // 输出标题 
+    getScreen() -> drawMargin(CharPixel("□"));
+    getScreen() -> newLine(2);
+    
+    getScreen() -> appendMarginNewLine(imenu -> getTitle().c_str(), 2, 2); // 输出标题 
     
     for(int id = 0; id < imenu -> getTermsCount(); id ++) {
+        getScreen() -> jumpMargin(2);
         if(id == imenu -> getActiveTermId()) { // 当前被选中的项 
-            std::cout << " => " << imenu -> getTerms()[id] << std::endl;
+            getScreen() -> appendString(" => ", ConsoleColor::RED);
+            getScreen() -> appendString(imenu -> getTerms()[id].c_str());
         }else { // 当前没有被选中的项 
-            std::cout << "    " << imenu -> getTerms()[id] << std::endl;
+            getScreen() -> appendString("    ", ConsoleColor::RED);
+            getScreen() -> appendString(imenu -> getTerms()[id].c_str());
         }
-        std::cout << std::endl;
+        getScreen() -> newLine(2);
     }
-    std::cout << "+----------------------------------------+" << std::endl << std::endl;
 }
 
 void View::showMainMenu(const MainMenu* mainMenu) {
     showIMenu(mainMenu); // 目前暂时采用相同的方式进行输出，以后可能会更改 
-    std::cout << "  Use 'w/s' to select term, use enter to confirm." << std::endl << std::endl;
+    
+    getScreen() -> appendMarginNewLine("Use Up/Down to select term", 2, 1, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("use Enter to confirm.", 2, 1, ConsoleColor::YELLOW);
+
+    getScreen() -> display();
 }
 
 void View::showSettngsMenu(const SettingsMenu* settingsMenu) {
     showIMenu(settingsMenu); // 目前暂时采用相同的方式进行输出，以后可能会更改 
-    std::cout << "  Use 'w/s' to select term, use a/d to change the value." << std::endl << std::endl;
-    View::showScroll("Volumn", settingsMenu -> getVolumnScroll());
-    View::showScroll("Resolution", settingsMenu -> getResolutionScroll());
+    
+    getScreen() -> appendMarginNewLine("Use Up/Down to select term", 2, 1, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("Use Left/Right to change the value.", 2, 2, ConsoleColor::YELLOW);
+    
+    View::showScroll(
+        "Volumn     ", 
+        settingsMenu -> getVolumnScroll(), // 显示 音量水平卷滚条 
+        settingsMenu -> getActiveTermId() == SettingsMenu::Volumn
+    );
+    View::showScroll(
+        "Resolution ", 
+        settingsMenu -> getResolutionScroll(), // 显示分辨率水平卷滚条 
+        settingsMenu -> getActiveTermId() == SettingsMenu::Resolution
+    );
+    
+    getScreen() -> display();
 }
 
-void View::showScroll(const char* scrollName, const Scroll* scroll) {
+void View::showScroll(const char* scrollName, const Scroll* scroll, bool highlight) {
     // Scroll [===================>] 输出一个水平卷滚条 
     
-    const int SCROLL_LENGTH = 20;              // 水平卷滚条的最大长度 
-    std::cout << "  * " << scrollName << "\t"; // 输出水平卷滚条的名字 
-    std::cout << "[";
+    const int SCROLL_LENGTH = 20; // 水平卷滚条的最大长度 
+    std::string message = "";
+    message += "[";
     for(int i = 1; i <= SCROLL_LENGTH; i ++) {
         double rateNow = double(i)/SCROLL_LENGTH;
         double rateNxt = double(i+1)/SCROLL_LENGTH;
         if(i == 1 && scroll -> getRate() == 0) {
-            std::cout << ">";
+            message += ">";
         }else {
             if(rateNow > scroll -> getRate()) {
-                std::cout << " "; // 空格 
+                message += " "; // 空格 
             }else {
                 if(rateNxt > scroll -> getRate()) { // 最后一个位置用 '>' 
-                    std::cout << ">";
+                    message += ">";
                 }else {
-                    std::cout << "=";
+                    message += "=";
                 }
             }
         }
     }
-    std::cout << "]" << std::endl << std::endl;
+    message += "]";
+    getScreen() -> appendMarginNewLine(
+        "  * ", 2, 0, // 0 表示不新建一行内容 
+        highlight ? ConsoleColor::RED : ConsoleColor::WHITE // 决定是否高亮显示 
+    );
+    getScreen() -> appendMarginNewLine(scrollName, 0, 0);
+    getScreen() -> appendMarginNewLine(
+        message.c_str(), 0, 2,
+        highlight ? ConsoleColor::RED : ConsoleColor::WHITE // 决定是否高亮显示 
+    );
 }
 
+Screen* View::getScreen() { // 获取画布 
+    return &mScreen;
+}
+
+void View::showUnfinishedMenu(const UnfinishedMenu* unfinishedMenu) { // 显示未完成的页面 
+    showIMenu(unfinishedMenu);
+    getScreen() -> appendMarginNewLine("use Enter to confirm.", 2, 1, ConsoleColor::YELLOW);
+
+    getScreen() -> display();
+}
