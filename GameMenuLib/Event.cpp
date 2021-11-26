@@ -5,6 +5,7 @@
 
 #include "Console.h"
 #include "Event.h"
+#include "GameMenu.h"
 #include "IMenu.h"
 
 KeyList Event::keyListNow;
@@ -67,7 +68,22 @@ void Event::operateIMenu(IMenu* imenu) const { // 根据 event 操作 imenu
     }
 }
 
-void Event::inactivate() {
+void Event::inActivate() {
     keyListNow.clearKeyList(); // 清空之前的按压事件 
 }
 
+void Event::operateGameMenu(GameMenu* gameMenu) const {
+    if(isLeft()) { // 试图向左移动 
+        gameMenu -> getChessboard() -> tetrisLeft();
+    }
+    if(isRight()) { // 试图向右移动 
+        gameMenu -> getChessboard() -> tetrisRight();
+    }
+    if(isUp()) { // 试图翻转掉落块 
+        gameMenu -> getChessboard() -> tetrisTurn();
+    }
+    if(isDown()) { // 试图让 掉落块下落 
+        gameMenu -> getChessboard() -> moveDown();
+    }
+    
+}

@@ -1,6 +1,8 @@
 #ifndef VIEW_H
 #define VIEW_H
 
+class Chessboard;
+class GameMenu;
 class IMenu;
 class MainMenu;
 class SettingsMenu;
@@ -17,8 +19,10 @@ public:
     static void showMainMenu(const MainMenu*);             // 显示主页面 
     static void showSettngsMenu(const SettingsMenu*);      // 显示设置页面 
     static void showUnfinishedMenu(const UnfinishedMenu*); // 显示尚未完成的页面 
+    static void showGameMenu(const GameMenu*);             // 显示游戏界面 
     
     static void showScroll(const char* scrollName, const Scroll*, bool); // 输出一个卷滚条 
+    static void showChessboard(const Chessboard*);                       // 显示一个棋盘 
     
     static Screen* getScreen(); // 获取 Screen 画布 
     

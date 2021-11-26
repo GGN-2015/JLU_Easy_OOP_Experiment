@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include "Event.h"
+#include "GameMenu.h"
 #include "IMenu.h"
 #include "MainMenu.h"
 #include "MenuMgr.h"
@@ -28,7 +29,7 @@ void Controller::processMainMenu(MainMenu* mainMenu) { // 处理 imenu 的输入事件
         int id = mainMenu -> getActiveTermId();
         switch(id) {
             case MainMenu::NewGame:
-                MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
+                MenuMgr::getInstance().pushMenuStack(new GameMenu);
                 break;
             case MainMenu::SaveLoad: // 读取存档 
                 MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
@@ -60,9 +61,21 @@ void Controller::processSettingsMenu(SettingsMenu* settingsMenu) {
 
 void Controller::processUnfinishedMenu(UnfinishedMenu* unfinishedMenu) {
     Event event;                        // 获取当前的所有事件 
-    event.operateIMenu(unfinishedMenu); // 根据事件对 mainMenu 进行调整，暂时使用 IMenu 的方法 
+    event.operateIMenu(unfinishedMenu); // 根据事件对 unfinishedMenu 进行调整，暂时使用 IMenu 的方法 
     
     if(event.isConfirm()) {
         MenuMgr::getInstance().popMenuStack(); // 退出当前页面 
     }
 }
+
+void Controller::processGameMenu(GameMenu* gameMenu) {
+    gameMenu -> runTick();           // 试图运行一个 tick 
+    Event event;                     // 获取当前的所有事件 
+    event.operateGameMenu(gameMenu); // 根据事件对 gameMenu 进行调整，暂时使用 IMenu 的方法 
+    
+    if(event.isEsc()) { // 按 ESC 暂停 
+        // TODO: 此处应该插入暂停页面 
+        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
+    }
+}
+

@@ -3,10 +3,12 @@
 
 #include "ConsoleColor.h"
 
+const int TetrisTypeCount = 7; // 编号为 0 ~ 4 
+
 class TetrisBlock { // 用来描述俄罗斯方块中的一个块 
 public:
     enum TetrisType {
-        TypeZ, TypeT, TypeL, TypeI, TypeO // 俄罗斯方块的所有形状种类 
+        TypeZ, TypeRZ, TypeT, TypeL, TypeRL, TypeI, TypeO // 俄罗斯方块的所有形状种类 
     };
     
     TetrisBlock(TetrisType type, ConsoleColor::Colors ColorId); // 构建一个俄罗斯方块的基本形状 

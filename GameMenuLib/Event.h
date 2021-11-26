@@ -4,6 +4,7 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+class GameMenu;
 class IMenu;
 class MainMenu;
 
@@ -27,8 +28,10 @@ public:
     bool isUp    () const;
     bool isDown  () const; // 检测是否是上下左右方向移动的键被按下 
     
-    void operateIMenu(IMenu*) const; // 操作 IMenu 的的 ActiveTerm 的选中 
-    static void inactivate(); // 瞬间里让时间感受器失活 
+    void operateIMenu(IMenu*) const;       // 操作 IMenu 的的 ActiveTerm 的选中 
+    void operateGameMenu(GameMenu*) const; // 操作游戏页面 
+    
+    void inActivate(); // 动作失活 
     
 private:
     static KeyList keyListNow;

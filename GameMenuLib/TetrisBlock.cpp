@@ -15,6 +15,12 @@ TetrisBlock::TetrisBlock(TetrisType type, ConsoleColor::Colors colorId) { // col
         mPos[1][1] = 1;
         mPos[1][2] = 1;
     }else
+    if(type == TypeRZ) { // 根据 type 来定义俄罗斯方块的类型 
+        mPos[0][1] = 1; //   □□
+        mPos[0][2] = 1; // □□
+        mPos[1][0] = 1;
+        mPos[1][1] = 1;
+    }else
     if(type == TypeT) {
         mPos[0][0] = 1; // □□□
         mPos[0][1] = 1; //   □
@@ -24,6 +30,12 @@ TetrisBlock::TetrisBlock(TetrisType type, ConsoleColor::Colors colorId) { // col
     if(type == TypeL) {
         mPos[0][0] = 1; // □
         mPos[1][0] = 1; // □
+        mPos[2][0] = 1; // □□
+        mPos[2][1] = 1; 
+    }else
+    if(type == TypeRL) { // 反向的 L 
+        mPos[0][1] = 1; //   □
+        mPos[1][1] = 1; //   □
         mPos[2][0] = 1; // □□
         mPos[2][1] = 1; 
     }else
@@ -39,7 +51,8 @@ TetrisBlock::TetrisBlock(TetrisType type, ConsoleColor::Colors colorId) { // col
         mPos[1][0] = 1;
         mPos[1][1] = 1;
     }else {
-        std::cout << "TetrisBlock::TetrisBlock(TetrisType type) type error!" << std::endl;
+        system("cls");
+        std::cout << "TetrisBlock::TetrisBlock(TetrisType type) type error! " << (int)type << std::endl;
     }
 }
 
@@ -151,3 +164,4 @@ int TetrisBlock::getPos(int row, int col) const {
 int TetrisBlock::getColorId() const {
     return mColorId;
 }
+

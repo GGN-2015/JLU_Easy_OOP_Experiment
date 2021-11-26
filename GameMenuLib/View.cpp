@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <string>
 
+#include "Chessboard.h"
+#include "GameMenu.h"
 #include "IMenu.h"
 #include "MainMenu.h"
 #include "Screen.h"
@@ -105,5 +107,27 @@ void View::showUnfinishedMenu(const UnfinishedMenu* unfinishedMenu) { // ÏÔÊ¾Î´Í
     showIMenu(unfinishedMenu);
     getScreen() -> appendMarginNewLine("use Enter to confirm.", 2, 1, ConsoleColor::YELLOW);
 
+    getScreen() -> display();
+}
+
+void View::showChessboard(const Chessboard* chessboard) {
+    getScreen() -> drawMargin(CharPixel("¡õ"));
+    for(int i = 0; i < CHESSBOARD_HEIGHT + 2; i ++) {
+        for(int j = 0; j < CHESSBOARD_WIDTH + 2; j ++) {
+            int x = i - 1, y = j - 1; // ÆåÅÌÄÚ×ø±ê 
+            int colorId = chessboard -> getViewPosColor(x, y);
+            if(colorId) {
+                getScreen() -> setPixel(i, j, CharPixel("¡õ", colorId));
+            }else {
+                getScreen() -> setPixel(i, j, CharPixel("  ", ConsoleColor::WHITE));
+            }
+        }
+    }
+    // ÓÉÓÚÊÇ¿Ø¼þ£¬ËùÒÔ²»Ð´ getScreen() -> display();
+    // »æÖÆÒ»¸ö chessboard µ½ÆÁÄ» 
+}
+
+void View::showGameMenu(const GameMenu* gameMenu) {
+    View::showChessboard(gameMenu -> getChessboard());
     getScreen() -> display();
 }
