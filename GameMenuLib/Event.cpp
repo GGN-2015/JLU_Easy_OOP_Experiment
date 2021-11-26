@@ -18,15 +18,17 @@ void KeyList::getKeyList() {
     mKeyDown  = Console::keyDown(VK_DOWN);
     mKeyEnter = Console::keyDown(VK_RETURN); // 检测是否是指定的按键被按下了 
     mKeyEsc   = Console::keyDown(VK_ESCAPE);
+    mKeySpace = Console::keyDown(VK_SPACE);
 }
 
 void KeyList::clearKeyList() {
-    mKeyLeft  = Console::keyDown(VK_LEFT);
-    mKeyRight = Console::keyDown(VK_RIGHT);
-    mKeyUp    = Console::keyDown(VK_UP);
-    mKeyDown  = Console::keyDown(VK_DOWN);
-    mKeyEnter = Console::keyDown(VK_RETURN); // 检测是否是指定的按键被按下了 
-    mKeyEsc   = Console::keyDown(VK_ESCAPE);
+    mKeyLeft  = 0;
+    mKeyRight = 0;
+    mKeyUp    = 0;
+    mKeyDown  = 0;
+    mKeyEnter = 0;
+    mKeyEsc   = 0;
+    mKeySpace = 0;
 }
 
 Event::Event() { // 暂时使用 conio.h 中提供的函数进行输入 
@@ -59,6 +61,10 @@ bool Event::isEsc() const { // 检测 Esc 键是否被按下了
     return keyListLast.mKeyEsc && !keyListNow.mKeyEsc;
 }
 
+bool Event::isSpace() const {
+    return keyListLast.mKeySpace && !keyListNow.mKeySpace;
+}
+
 void Event::operateIMenu(IMenu* imenu) const { // 根据 event 操作 imenu 
     if(isUp()) {
         imenu -> prevTerm(); // 光标上移一个条目 
@@ -83,7 +89,10 @@ void Event::operateGameMenu(GameMenu* gameMenu) const {
         gameMenu -> getChessboard() -> tetrisTurn();
     }
     if(isDown()) { // 试图让 掉落块下落 
-        gameMenu -> getChessboard() -> moveDown();
+        gameMenu -> getChessboard() -> tetrisDown();
     }
-    
+    if(isSpace()) { // 试图让方块一直掉落到底 
+        while(gameMenu -> getChessboard() -> tetrisDown());
+    }
 }
+

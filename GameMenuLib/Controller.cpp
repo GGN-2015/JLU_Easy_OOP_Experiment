@@ -7,6 +7,7 @@
 #include "IMenu.h"
 #include "MainMenu.h"
 #include "MenuMgr.h"
+#include "PauseMenu.h"
 #include "SettingsMenu.h"
 #include "UnfinishedMenu.h"
 
@@ -30,9 +31,11 @@ void Controller::processMainMenu(MainMenu* mainMenu) { // 处理 imenu 的输入事件
         switch(id) {
             case MainMenu::NewGame:
                 MenuMgr::getInstance().pushMenuStack(new GameMenu);
+                //std::cout << "Here!" << std::endl;
+                //system("pause");
                 break;
             case MainMenu::SaveLoad: // 读取存档 
-                MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
+                MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("Save/Load"));
                 break;
             case MainMenu::Settings: // 进行设置 
                 MenuMgr::getInstance().pushMenuStack(new SettingsMenu); // 设置页面进栈 
@@ -75,7 +78,37 @@ void Controller::processGameMenu(GameMenu* gameMenu) {
     
     if(event.isEsc()) { // 按 ESC 暂停 
         // TODO: 此处应该插入暂停页面 
-        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
+        // MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu);
+        MenuMgr::getInstance().pushMenuStack(new PauseMenu);
     }
 }
 
+void Controller::processPauseMenu(PauseMenu* pauseMenu) {
+    Event event;                   // 获取当前的所有事件 
+    event.operateIMenu(pauseMenu); // 根据事件对 mainMenu 进行调整，暂时使用 IMenu 的方法 
+    
+    if(event.isLeft()) {
+        pauseMenu -> leftMoveActive(); // 速度调低 
+    }
+    if(event.isRight()) {
+        pauseMenu -> rightMoveActive(); // 速度调高 
+    }
+    if(event.isConfirm()) {
+        if(pauseMenu -> getActiveTermId() == PauseMenu::Resume) {
+            MenuMgr::getInstance().popMenuStack(); // 回到上级菜单 
+        }else
+        if(pauseMenu -> getActiveTermId() == PauseMenu::Quit) {
+            MenuMgr::getInstance().popMenuStack(); // 回到主菜单 
+            MenuMgr::getInstance().popMenuStack(); // 弹栈两次 
+        }else
+        if(pauseMenu -> getActiveTermId() == PauseMenu::Save) {
+            // TODO: 保存功能与 S - L 界面 
+            MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("Save"));
+        }
+    }
+}
+
+void Controller::lostGame(int finalScore) {
+    // 游戏失败 
+    MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("GameLostMenu"));
+}

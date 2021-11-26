@@ -8,6 +8,7 @@
 #include "GameMenu.h"
 #include "IMenu.h"
 #include "MainMenu.h"
+#include "PauseMenu.h"
 #include "Screen.h"
 #include "Scroll.h"
 #include "SettingsMenu.h"
@@ -105,8 +106,10 @@ Screen* View::getScreen() { // 获取画布
 
 void View::showUnfinishedMenu(const UnfinishedMenu* unfinishedMenu) { // 显示未完成的页面 
     showIMenu(unfinishedMenu);
-    getScreen() -> appendMarginNewLine("use Enter to confirm.", 2, 1, ConsoleColor::YELLOW);
-
+    getScreen() -> appendMarginNewLine("use Enter to confirm.", 2, 2, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("You see this page ", 2, 1, ConsoleColor::BLUE);
+    getScreen() -> appendMarginNewLine("because this part is not finished.", 2, 1, ConsoleColor::BLUE);
+    
     getScreen() -> display();
 }
 
@@ -129,5 +132,28 @@ void View::showChessboard(const Chessboard* chessboard) {
 
 void View::showGameMenu(const GameMenu* gameMenu) {
     View::showChessboard(gameMenu -> getChessboard());
+    
+    char nowScore[15]; sprintf(nowScore, "%d", gameMenu -> getScore()); // 获取成绩字符串 
+    
+    getScreen() -> newLine(2); // 显示分数 
+    getScreen() -> appendMarginNewLine("Now Score:", CHESSBOARD_WIDTH + 4, 1, ConsoleColor::WHITE);
+    getScreen() -> appendMarginNewLine(nowScore, CHESSBOARD_WIDTH + 4, 2, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("Esc to pause", CHESSBOARD_WIDTH + 4, 1, ConsoleColor::YELLOW);
+    
+    getScreen() -> display();
+}
+
+void View::showPauseMenu(const PauseMenu* pauseMenu) {
+    showIMenu(pauseMenu); // 目前暂时采用相同的方式进行输出，以后可能会更改 
+    
+    getScreen() -> appendMarginNewLine("Use Up/Down to select term", 2, 1, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("Use Left/Right to change the value.", 2, 2, ConsoleColor::YELLOW);
+    
+    View::showScroll(
+        "Speed      ", 
+        pauseMenu -> getSpeedScroll(), // 显示 音量水平卷滚条 
+        pauseMenu -> getActiveTermId() == PauseMenu::Speed
+    );
+    
     getScreen() -> display();
 }

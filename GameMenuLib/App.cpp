@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "App.h" // App 负责所有和文件相关的操作以及程序运行的框架 
+#include "Event.h"
 #include "IMenu.h"
 #include "MenuMgr.h"
 
@@ -24,6 +25,7 @@ void App::initialize() {
     }
     system("pause");
     system("cls");
+    Event::inActivate(); // 刚进入 App 时动作失活 
 }
 
 void App::run() { // 运行整个 App 

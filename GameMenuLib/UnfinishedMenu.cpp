@@ -4,8 +4,16 @@
 #include "UnfinishedMenu.h"
 #include "View.h"
 
+UnfinishedMenu::UnfinishedMenu() {
+    mPartName = "Unknown Part";
+}
+
+UnfinishedMenu::UnfinishedMenu(std::string partName) {
+    mPartName = partName;
+}
+
 std::string UnfinishedMenu::getTitle() const {
-    return "UnfinishedMenu"; // 未做完的目录 
+    return "UnfinishedMenu <" + mPartName + ">" ; // 未做完的目录 
 }
 
 const std::vector<std::string>& UnfinishedMenu::getTerms() const {

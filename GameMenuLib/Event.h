@@ -10,7 +10,7 @@ class MainMenu;
 
 struct KeyList {
     bool mKeyLeft = 0, mKeyRight = 0, mKeyUp = 0, mKeyDown = 0; // 方向键 
-    bool mKeyEnter = 0, mKeyEsc = 0;
+    bool mKeyEnter = 0, mKeyEsc = 0, mKeySpace = 0;
     
     void getKeyList(); // 获取当前的状态集合 
     void clearKeyList();
@@ -27,11 +27,12 @@ public:
     bool isRight () const;
     bool isUp    () const;
     bool isDown  () const; // 检测是否是上下左右方向移动的键被按下 
+    bool isSpace () const;
     
     void operateIMenu(IMenu*) const;       // 操作 IMenu 的的 ActiveTerm 的选中 
     void operateGameMenu(GameMenu*) const; // 操作游戏页面 
     
-    void inActivate(); // 动作失活 
+    static void inActivate(); // 动作失活 
     
 private:
     static KeyList keyListNow;

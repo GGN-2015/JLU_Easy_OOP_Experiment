@@ -4,6 +4,9 @@
 #include "Chessboard.h"
 #include "IMenu.h" // 所有的菜单都由 IMenu 派生而来 
 
+const int TICK_LENGTH_MAX  = 600; 
+const int TICK_LENGTH_STEP = 90;
+
 class GameMenu: public IMenu {
 public:
     GameMenu(); // 设置 mLastTickTime 
@@ -20,6 +23,8 @@ public:
     const Chessboard* getChessboard() const; // 获取当前的棋盘信息 
     Chessboard* getChessboard();
     void inActive();                         // 计时失活 
+    
+    static void setSpeed(int degree);
     
 private:
     // 从文件中读取数据, 向文件中写入数据 

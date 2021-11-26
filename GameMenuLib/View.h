@@ -5,6 +5,7 @@ class Chessboard;
 class GameMenu;
 class IMenu;
 class MainMenu;
+class PauseMenu;
 class SettingsMenu;
 class Screen; // 显示界面 
 class Scroll;
@@ -20,6 +21,7 @@ public:
     static void showSettngsMenu(const SettingsMenu*);      // 显示设置页面 
     static void showUnfinishedMenu(const UnfinishedMenu*); // 显示尚未完成的页面 
     static void showGameMenu(const GameMenu*);             // 显示游戏界面 
+    static void showPauseMenu(const PauseMenu*);           // 显示暂停界面 
     
     static void showScroll(const char* scrollName, const Scroll*, bool); // 输出一个卷滚条 
     static void showChessboard(const Chessboard*);                       // 显示一个棋盘 

@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <iostream>
 
 #include "Chessboard.h"
 #include "ConsoleColor.h"
@@ -11,11 +12,13 @@ int Chessboard::rand(int L, int R) {
 
 Chessboard::Chessboard() {
     mTetrisBlock = nullptr; // 保证 delete 不 RE 
+    makeNextType();
     reset(); // 让方块重新从顶部掉落 
 }
 
-int Chessboard::moveDown() { // 向下移动俄罗斯方块 
+int Chessboard::moveDown(bool& okToRun) { // 向下移动俄罗斯方块 
     int scoreAdd = 0;
+    okToRun = true;
     if(mTetrisBlock != nullptr) {
         int nPosX = mPosX + 1, nPosY = mPosY;
         if(!checkAvailable(nPosX, nPosY, *mTetrisBlock)) {
@@ -24,13 +27,22 @@ int Chessboard::moveDown() { // 向下移动俄罗斯方块
             setTetrisBlock(mPosX, mPosY, *mTetrisBlock); // 固化 
             scoreAdd = deleteTest(); // 试图清除一些下方的行 
             putDownIsland();         // 悬浮岛屿下移 
-            reset();
+            okToRun = reset();       // 记录游戏是否失败 
         }else {
             // 如果能向下移动，则向下移动 
             mPosX ++;
         }
     }
     return scoreAdd;
+}
+
+bool Chessboard::tetrisDown() {
+    int nPosX = mPosX + 1, nPosY = mPosY;
+    if(checkAvailable(nPosX, nPosY, *mTetrisBlock)) {
+        mPosX ++;
+        return true; // 试图向下移动 
+    }
+    return false;
 }
 
 void Chessboard::putDownIsland() {
@@ -94,21 +106,21 @@ void Chessboard::show() const {
 }
 
 bool Chessboard::reset() {
-    const int ColorCount = 6;
-    
     mPosX = 0;
     mPosY = CHESSBOARD_WIDTH / 2 - 2;
     
     delete mTetrisBlock; // 删除老的块 
     
-    mTetrisBlock = new TetrisBlock(
-        (TetrisBlock::TetrisType) rand(0, TetrisTypeCount - 1), // 随机生成一个形状 
-        (ConsoleColor::Colors)    rand(1 + 8, ColorCount + 8)
-    );
-    // 这里看起来复用性并不是很好 
-    // TODO: 感觉没什么问题 
+    mTetrisBlock = new TetrisBlock(mNextType, mNextColorId);
+    int cnt = rand(0, 3);
+    while(cnt --) {
+        mTetrisBlock -> rotate(); // 初始随机旋转若干次 
+    }
+    
+    makeNextType(); // 设置 mNextType 
     
     if(!checkAvailable(mPosX, mPosY, *mTetrisBlock)) {
+        // 此处应该转到失败页面 
         return false; // 你输了 
     }
     
@@ -188,3 +200,10 @@ void Chessboard::tetrisTurn() {
         // 申请一块新的空间 
     }
 }
+
+void Chessboard::makeNextType() {
+    const int ColorCount = 6;
+    mNextType = (TetrisBlock::TetrisType) rand(0, TetrisTypeCount - 1); // 随机生成一个形状 
+    mNextColorId = (ConsoleColor::Colors) rand(1 + 8, ColorCount + 8);
+}
+

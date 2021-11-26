@@ -5,7 +5,7 @@
 #include "GameMenu.h"
 #include "View.h"
 
-int GameMenu::tickLength = 600; // 600 ms
+int GameMenu::tickLength = TICK_LENGTH_MAX; // 600 ms
 
 GameMenu::GameMenu() {
     mLastTickTime = clock(); // 上一个 tick 更新的时间 
@@ -28,9 +28,13 @@ void GameMenu::runTick() { // 试图运行一个 tick
         mLastTickTime = clock();
     }else {
         if(clock() - mLastTickTime >= tickLength) {
-            mScore += mChessboard.moveDown(); // 让游戏进行一个 tick 
+            bool okToRun = true;
+            mScore += mChessboard.moveDown(okToRun); // 让游戏进行一个 tick 
             mLastTickTime = clock();
             // 开始一个新的 Tick 
+            if(!okToRun) {
+                Controller::lostGame(getScore()); // 游戏失败 
+            }
         }
     }
 }
@@ -41,5 +45,11 @@ const Chessboard* GameMenu::getChessboard() const {
 
 Chessboard* GameMenu::getChessboard() {
     return &mChessboard; // 为了 process 使用 
+}
+
+void GameMenu::setSpeed(int degree) {
+    int discount = degree * TICK_LENGTH_STEP;
+    GameMenu::tickLength
+        = TICK_LENGTH_MAX - discount;
 }
 

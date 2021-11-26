@@ -1,9 +1,10 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-class IMenu;
 class GameMenu;
+class IMenu;
 class MainMenu;
+class PauseMenu;
 class SettingsMenu;
 class UnfinishedMenu;
 
@@ -14,7 +15,10 @@ public:
     static void processSettingsMenu(SettingsMenu*);     // 处理一个 SettingsMenu 的输入事件 
     static void processUnfinishedMenu(UnfinishedMenu*); // 处理一个 UnfinishedMenu 的输入事件 
     static void processGameMenu(GameMenu*);             // 处理一个 GameMenu 的输入事件 
+    static void processPauseMenu(PauseMenu*);           // 处理一个 PauseMenu 的输入事件 
 
+    static void lostGame(int scoreNow);
+    
 private:
     Controller() = delete;
     Controller(const Controller&) = delete;

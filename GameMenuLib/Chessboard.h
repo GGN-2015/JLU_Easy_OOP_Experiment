@@ -4,14 +4,14 @@
 const int CHESSBOARD_HEIGHT = 22;
 const int CHESSBOARD_WIDTH  = 11; // 棋盘的大小 
 
-class TetrisBlock; // 一个俄罗斯方块的 
+#include "TetrisBlock.h"
 
 class Chessboard {
 public:
     Chessboard(); // 创建空棋盘 
     ~Chessboard();
     
-    int moveDown(); // 将 mTetris 试图向下移动 
+    int moveDown(bool& okToRun); // 将 mTetris 试图向下移动 
     
     void show() const; // 显示一个棋盘, 直接委托给 View 做 
     bool reset();      // 重新从顶部掉落 
@@ -20,9 +20,10 @@ public:
     
     int getViewPosColor(int x, int y) const; // 返回看起来的颜色, 考虑掉落块 
     
-    void tetrisLeft();
-    void tetrisRight();
-    void tetrisTurn();  // 试图移动或翻转俄罗斯方块 
+    void tetrisLeft  ();
+    void tetrisRight ();
+    void tetrisTurn  ();  // 试图移动或翻转俄罗斯方块 
+    bool tetrisDown  ();
     
 private:
     int deleteTest();
@@ -40,10 +41,15 @@ private:
     bool InTeris(int row, int col) const; // 检测某个位置是否在掉落块范围内 
     int getPosColor(int row, int col) const; // 得到某一个位置的颜色，边缘返回 WHITE (不考虑掉落块) 
     
+    void makeNextType(); 
+    
     int mScore = 0; // 记录得分 
     int mColors[CHESSBOARD_HEIGHT][CHESSBOARD_WIDTH] {}; // 记录棋盘上每个位置的颜色, 0 表示无方块 
     int mPosX, mPosY;
     TetrisBlock* mTetrisBlock; // 记录当前块 
+    
+    TetrisBlock::TetrisType mNextType;    // 下一个块的样式 
+    ConsoleColor::Colors    mNextColorId; // 下一个块的颜色 
     
     Chessboard(const Chessboard&) = delete;
     Chessboard& operator= (const Chessboard&) = delete; // 禁止拷贝赋值 
