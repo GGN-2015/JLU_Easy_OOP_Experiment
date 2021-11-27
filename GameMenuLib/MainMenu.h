@@ -6,7 +6,7 @@
 class MainMenu: public IMenu {
 public:
     enum Terms { // 此处必须手动与 getTerms 中的内容一致 
-        NewGame = 0, SaveLoad = 1, Settings = 2, Quit = 3
+        NewGame = 0, SaveLoad = 1, Settings = 2, About = 3, Quit = 4
     };
     
     virtual std::string getTitle() const;

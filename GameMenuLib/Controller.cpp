@@ -1,8 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "App.h"
+#include "AboutMenu.h"
 #include "Controller.h"
 #include "Event.h"
+#include "GameLostMenu.h"
 #include "GameMenu.h"
 #include "IMenu.h"
 #include "MainMenu.h"
@@ -39,6 +42,9 @@ void Controller::processMainMenu(MainMenu* mainMenu) { // 处理 imenu 的输入事件
                 break;
             case MainMenu::Settings: // 进行设置 
                 MenuMgr::getInstance().pushMenuStack(new SettingsMenu); // 设置页面进栈 
+                break;
+            case MainMenu::About:
+                MenuMgr::getInstance().pushMenuStack(new AboutMenu("AboutMenu", App::getAboutMessage())); // 关于界面 
                 break;
             case MainMenu::Quit:     // 退出游戏 
                 MenuMgr::getInstance().popMenuStack();
@@ -109,6 +115,26 @@ void Controller::processPauseMenu(PauseMenu* pauseMenu) {
 }
 
 void Controller::lostGame(int finalScore) {
-    // 游戏失败 
-    MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("GameLostMenu"));
+    // 游戏失败，最终成绩未 final Score 
+    MenuMgr::getInstance().pushMenuStack(new GameLostMenu(finalScore));
 }
+
+void Controller::processGameLostMenu(GameLostMenu* gameLostMenu) {
+    Event event;                      // 获取当前的所有事件 
+    event.operateIMenu(gameLostMenu); // 根据事件对 IMenu 进行调整，暂时使用 IMenu 的方法 
+    
+    if(event.isConfirm()) {
+        MenuMgr::getInstance().popMenuStack();
+        MenuMgr::getInstance().popMenuStack(); // 两跳两级回到主菜单 
+    }
+}
+
+void Controller::processAboutMenu(AboutMenu* aboutMenu) {
+    Event event;                   // 获取当前的所有事件 
+    event.operateIMenu(aboutMenu); // 根据事件对 aboutMenu 进行调整，暂时使用 IMenu 的方法 
+    
+    if(event.isConfirm()) {
+        MenuMgr::getInstance().popMenuStack(); // 回到主菜单 
+    }
+}
+

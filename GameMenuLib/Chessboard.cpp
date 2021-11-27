@@ -47,6 +47,7 @@ bool Chessboard::tetrisDown() {
 
 void Chessboard::putDownIsland() {
     // TODO: 悬浮岛屿下沉算法还没有写 
+    
 }
 
 Chessboard::~Chessboard() {
@@ -205,5 +206,9 @@ void Chessboard::makeNextType() {
     const int ColorCount = 6;
     mNextType = (TetrisBlock::TetrisType) rand(0, TetrisTypeCount - 1); // 随机生成一个形状 
     mNextColorId = (ConsoleColor::Colors) rand(1 + 8, ColorCount + 8);
+}
+
+void Chessboard::setPosColor(int row, int col, int color) {
+    mColors[row][col] = color;
 }
 

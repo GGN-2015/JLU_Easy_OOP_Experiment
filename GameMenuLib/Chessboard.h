@@ -19,12 +19,16 @@ public:
     
     
     int getViewPosColor(int x, int y) const; // 返回看起来的颜色, 考虑掉落块 
+    void setPosColor(int row, int col, int color);
     
     void tetrisLeft  ();
     void tetrisRight ();
     void tetrisTurn  ();  // 试图移动或翻转俄罗斯方块 
     bool tetrisDown  ();
     
+    int getPosColor(int row, int col) const; // 得到某一个位置的颜色，边缘返回 WHITE (不考虑掉落块) 
+    // ↑ 此函数仅供 PutDownIsLand/保存 使用 
+
 private:
     int deleteTest();
     void putDownIsland(); // 悬浮岛屿下移算法 
@@ -39,11 +43,10 @@ private:
     
     bool InChessboard(int row, int col) const; // 检测某个位置是否在棋盘中 
     bool InTeris(int row, int col) const; // 检测某个位置是否在掉落块范围内 
-    int getPosColor(int row, int col) const; // 得到某一个位置的颜色，边缘返回 WHITE (不考虑掉落块) 
+    // int getPosColor(int row, int col) const; // 得到某一个位置的颜色，边缘返回 WHITE (不考虑掉落块) 
     
     void makeNextType(); 
     
-    int mScore = 0; // 记录得分 
     int mColors[CHESSBOARD_HEIGHT][CHESSBOARD_WIDTH] {}; // 记录棋盘上每个位置的颜色, 0 表示无方块 
     int mPosX, mPosY;
     TetrisBlock* mTetrisBlock; // 记录当前块 

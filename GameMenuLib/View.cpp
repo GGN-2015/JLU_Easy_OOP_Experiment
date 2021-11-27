@@ -4,7 +4,9 @@
 #include <cstdlib>
 #include <string>
 
+#include "AboutMenu.h"
 #include "Chessboard.h"
+#include "GameLostMenu.h"
 #include "GameMenu.h"
 #include "IMenu.h"
 #include "MainMenu.h"
@@ -138,7 +140,8 @@ void View::showGameMenu(const GameMenu* gameMenu) {
     getScreen() -> newLine(2); // 显示分数 
     getScreen() -> appendMarginNewLine("Now Score:", CHESSBOARD_WIDTH + 4, 1, ConsoleColor::WHITE);
     getScreen() -> appendMarginNewLine(nowScore, CHESSBOARD_WIDTH + 4, 2, ConsoleColor::YELLOW);
-    getScreen() -> appendMarginNewLine("Esc to pause", CHESSBOARD_WIDTH + 4, 1, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("Esc to pause.", CHESSBOARD_WIDTH + 4, 1, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("Space to set.", CHESSBOARD_WIDTH + 4, 1, ConsoleColor::YELLOW);
     
     getScreen() -> display();
 }
@@ -157,3 +160,26 @@ void View::showPauseMenu(const PauseMenu* pauseMenu) {
     
     getScreen() -> display();
 }
+
+void View::showGameLostMenu(const GameLostMenu* gameLostMenu) {
+    showIMenu(gameLostMenu);
+    
+    getScreen() -> appendMarginNewLine("Final Score:", 2, 1, ConsoleColor::WHITE);
+    
+    char finalScore[15]; sprintf(finalScore, "%d", gameLostMenu -> getFinalScore());
+    getScreen() -> appendMarginNewLine(finalScore, 2, 2, ConsoleColor::YELLOW);
+    getScreen() -> appendMarginNewLine("Press Enter to continue.", 2, 1, ConsoleColor::YELLOW);
+    
+    getScreen() -> display(); // 记得 display，不然不显示了 
+}
+
+void View::showAboutMenu(const AboutMenu* aboutMenu) {
+    showIMenu(aboutMenu);
+    
+    for(auto listItem: aboutMenu -> getMessageList()) {
+        getScreen() -> appendMarginNewLine(listItem.c_str(), 2, 1, ConsoleColor::YELLOW);
+    }
+    
+    getScreen() -> display(); // 记得 display，不然不显示了 
+}
+

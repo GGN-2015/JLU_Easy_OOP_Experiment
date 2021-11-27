@@ -2,6 +2,9 @@
 #define APP_H
 
 #include <string>
+#include <vector>
+
+class GameMenu;
 
 class App {
 public:
@@ -15,10 +18,16 @@ public:
     bool checkVersion();  // 检查程序数据文件的版本与 exe 文件的版本是否兼容 
     void saveData();      // 将数据写回文件 
     
-    std::string getVersion() const; // 获取 exe 的版本号信息 
+    static int getVersion(); // 获取 exe 的版本号信息 
+    
+    static void saveGameMenu(const GameMenu*); // 储存棋盘信息 
+    static std::string getDateTime();    // 获取系统时间 
+    static void loadGameMenu(std::string, GameMenu*); // 加载游戏数据 
+    
+    static const std::vector<std::string>& getAboutMessage(); // 获得关于信息 
     
 private:
-    static std::string mVersion; // 记录当前版本 
+    static const int mVersion; // 记录当前版本 
     
     App(const App&) = delete;
     App& operator= (const App&) = delete; // 禁止拷贝和赋值 

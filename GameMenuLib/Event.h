@@ -35,6 +35,9 @@ public:
     static void inActivate(); // 动作失活 
     
 private:
+    static const int inactiveLength = 400; // 400 ms 失活 
+    static int inactiveTime;
+    
     static KeyList keyListNow;
     static KeyList keyListLast;
 };

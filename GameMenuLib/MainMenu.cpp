@@ -12,11 +12,11 @@ const std::vector<std::string>& MainMenu::getTerms() const {
         "NewGame",    // 新游戏 
         "Save/Load",  // 读取存档 
         "Settings",   // 修改设置 
+        "About",      // 关于游戏内容 
         "Quit",       // 退出游戏 
     };
     return terms;
 }
-
 
 void MainMenu::show() const {
     View::showMainMenu(this); // 输出 MainMenu 对象 

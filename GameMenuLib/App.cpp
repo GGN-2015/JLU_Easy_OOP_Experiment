@@ -1,11 +1,15 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 #include "App.h" // App 负责所有和文件相关的操作以及程序运行的框架 
 #include "Event.h"
+#include "GameMenu.h"
 #include "IMenu.h"
 #include "MenuMgr.h"
+#include "UnfinishedMenu.h"
 
-std::string App::mVersion = "2021-11-25";
+const int App::mVersion = 20211125; // 当前的版本号 
 
 App::App() {
     // 程序内部的 App 数据组织部分，暂时还没有什么需要做的 
@@ -61,7 +65,91 @@ void App::saveData() { // 写回数据文件
     std::cout << "[OK]" << std::endl;
 }
 
-std::string App::getVersion() const {
+std::string App::getDateTime(){
+    char stime[256] = {0};
+    
+    time_t now_time;
+    time(&now_time);
+    
+    strftime(stime, sizeof(stime), "%Y-%m-%d %H-%M-%S", localtime(&now_time));
+    return stime;
+}
+
+int App::getVersion() {
     return mVersion;
+}
+
+void App::saveGameMenu(const GameMenu* gameMenu) {
+    std::string fileName = "./storage/" + getDateTime() + ".dat";  // getDateTime 获取日期和时间 
+    FILE* fp = fopen(fileName.c_str(), "wb");       // 将游戏数据写入文件 
+    
+    fwrite(&mVersion, sizeof(int), 1, fp);          // 输出游戏的版本号 
+    fwrite(&CHESSBOARD_HEIGHT, sizeof(int), 1, fp);
+    fwrite(&CHESSBOARD_WIDTH , sizeof(int), 1, fp); // 输出游戏棋盘的长和宽 
+    
+    for(int i = 0; i < CHESSBOARD_HEIGHT; i ++) {
+        for(int j = 0; j < CHESSBOARD_WIDTH; j ++) {
+            // 输出棋盘中的每一个位置的二进制值 
+            int val = gameMenu -> getChessboard() -> getPosColor(i, j); // 记录已经固化的游戏棋盘 
+            fwrite(&val, sizeof(int), 1, fp);          // 输出一个二进制整数 
+        }
+    }
+    
+    int scoreNow = gameMenu -> getScore(); // 输出当前的得分 
+    fwrite(&scoreNow, sizeof(int), 1, fp);
+    fclose(fp);
+}
+
+void App::loadGameMenu(std::string fileName, GameMenu* gameMenu) { // 从文件加载游戏 
+    FILE* fpin = fopen(fileName.c_str(), "rb");
+    
+    if(fpin == nullptr) {
+        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("LoadFileError"));
+        return; // TODO: 这里应该显示一个文件加载失败的页面 
+    }
+    
+    int sVersion; fread(&sVersion, sizeof(int), 1, fpin); // 输入版本号 
+    
+    if(sVersion > getVersion()) { // 储存版本比当前版本高 
+        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("LoadVersionError"));
+        return; // TODO: 这里应该显示一个文件加载失败的页面 
+    }
+    
+    int chessboard_height; fread(&chessboard_height, sizeof(int), 1, fpin);
+    int chessboard_width;  fread(&chessboard_width , sizeof(int), 1, fpin);
+    
+    if(
+        chessboard_height != CHESSBOARD_HEIGHT ||
+        chessboard_width  != CHESSBOARD_WIDTH
+    ) {
+        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("ChessboardSizeError"));
+        return; // TODO: 这里应该显示一个文件加载失败的页面 
+    }
+    
+    for(int i = 0; i < CHESSBOARD_HEIGHT; i ++) {
+        for(int j = 0; j < CHESSBOARD_WIDTH; j ++) {
+            int color;
+            fread(&color, sizeof(int), 1, fpin); // 输入一个位置的颜色 
+            gameMenu -> getChessboard() -> setPosColor(i, j, color);
+        }
+    }
+    
+    int scoreNow; 
+    fread(&scoreNow, sizeof(int), 1, fpin); // 输入一个当前成绩 
+    gameMenu -> setScore(scoreNow);
+    
+    // 载入成功，就别显示什么页面了 
+}
+
+const std::vector<std::string>& App::getAboutMessage() {
+    char sVersion[15]; sprintf(sVersion, "%d", mVersion); // 获取版本号 
+    
+    static std::vector<std::string> terms
+    {
+        "Presented by GGN_2015",
+        "", // 中间空一行 
+        "Version:" + std::string(sVersion)
+    };
+    return terms;
 }
 

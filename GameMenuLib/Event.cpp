@@ -8,6 +8,8 @@
 #include "GameMenu.h"
 #include "IMenu.h"
 
+int Event::inactiveTime = - inactiveLength; // 默认没有失活 
+
 KeyList Event::keyListNow;
 KeyList Event::keyListLast;
 
@@ -54,7 +56,9 @@ bool Event::isDown() const { // 检测是否是向下移动的操作
 
 bool Event::isConfirm() const { // 检测是否是确认操作 
     // 此处将来可能会被修改 
-    return keyListLast.mKeyEnter && !keyListNow.mKeyEnter;
+    if(clock() - inactiveTime >= inactiveLength) {
+        return keyListLast.mKeyEnter && !keyListNow.mKeyEnter;
+    }
 }
 
 bool Event::isEsc() const { // 检测 Esc 键是否被按下了 
@@ -76,6 +80,7 @@ void Event::operateIMenu(IMenu* imenu) const { // 根据 event 操作 imenu
 
 void Event::inActivate() {
     keyListNow.clearKeyList(); // 清空之前的按压事件 
+    inactiveTime = clock();    // 从当前时刻开始失活 
 }
 
 void Event::operateGameMenu(GameMenu* gameMenu) const {

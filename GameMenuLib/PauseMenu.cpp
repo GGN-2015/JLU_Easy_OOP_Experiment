@@ -17,7 +17,7 @@ std::string PauseMenu::getTitle() const {
 const std::vector<std::string>& PauseMenu::getTerms() const {
     static std::vector<std::string> terms
     {
-        "Resumn",
+        "Resume",
         "Save",
         "Speed",
         "Quit"

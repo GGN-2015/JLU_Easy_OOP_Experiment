@@ -25,6 +25,8 @@ public:
     void inActive();                         // 计时失活 
     
     static void setSpeed(int degree);
+    void saveGameMenu() const; // 储存当前游戏状态 
+    void setScore(int score);  // 设置游戏分数 
     
 private:
     // 从文件中读取数据, 向文件中写入数据 

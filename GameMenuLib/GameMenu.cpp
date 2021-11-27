@@ -1,6 +1,7 @@
 #include <ctime>
 #include <iostream>
 
+#include "App.h"
 #include "Controller.h"
 #include "GameMenu.h"
 #include "View.h"
@@ -53,3 +54,10 @@ void GameMenu::setSpeed(int degree) {
         = TICK_LENGTH_MAX - discount;
 }
 
+void GameMenu::saveGameMenu() const {
+    App::saveGameMenu(this);
+}
+
+void GameMenu::setScore(int score) {
+    mScore = score;
+}
