@@ -137,7 +137,10 @@ int Chessboard::deleteTest() {
             shiftDown(i);
         }
     }
-    return lineCount * lineScore;
+    if(lineCount == 0) return 10;
+    else {
+        return (1 << lineCount - 1) * lineScore + 10;
+    }
 }
 
 bool Chessboard::checkFull(int row) const {

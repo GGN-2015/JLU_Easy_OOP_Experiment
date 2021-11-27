@@ -10,7 +10,7 @@ const std::vector<std::string>& MainMenu::getTerms() const {
     static std::vector<std::string> terms
     {
         "NewGame",    // 新游戏 
-        "Save/Load",  // 读取存档 
+        "Load",       // 读取存档 
         "Settings",   // 修改设置 
         "About",      // 关于游戏内容 
         "Quit",       // 退出游戏 

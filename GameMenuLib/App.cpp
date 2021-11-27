@@ -13,6 +13,7 @@ const int App::mVersion = 20211125; // 当前的版本号
 
 App::App() {
     // 程序内部的 App 数据组织部分，暂时还没有什么需要做的 
+    srand(time(NULL));
 }
 
 void App::initialize() {
