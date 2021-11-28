@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "AboutMenu.h"
 #include "App.h" // App 负责所有和文件相关的操作以及程序运行的框架 
 #include "Event.h"
 #include "GameMenu.h"
@@ -80,8 +81,50 @@ int App::getVersion() {
     return mVersion;
 }
 
+void App::appendLineInFile(std::string fileName, std::string message) {
+    FILE* fpout = fopen(fileName.c_str(), "a"); // 输入文件名序列 
+    if(fpout == nullptr) {
+        // TODO: 这里应该有一个错误处理的机制 
+        // FatalMenu
+        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("storageListError"));
+        return;
+    }
+    fprintf(fpout, "%s\n", message.c_str()); // message 本身不应该末尾有换行符 
+    fclose(fpout);
+}
+
+std::vector<std::string> App::getStorageList() { // 获得文件序列 
+    FILE* fpin = fopen(STORAGE_LIST_FILE.c_str(), "r");
+    std::vector<std::string> storageList = {};
+    if(fpin == nullptr) {
+        // TODO: 这里应该有一个错误处理的机制 
+        // FatalMenu
+        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("storageListError"));
+        return storageList;
+    }
+    while(!feof(fpin)) { // 文件非空 
+        char fileNameTmp[258] = {};
+        fgets(fileNameTmp, sizeof(fileNameTmp), fpin); // 输入一行内容 
+        for(int i = 0; fileNameTmp[i]; i ++) {
+            if(fileNameTmp[i] == '\n' || fileNameTmp[i] == '\r') {
+                fileNameTmp[i] = 0;
+            }
+            // 删除换行符和回车 
+        }
+        std::string strTmp = fileNameTmp;
+        if(strTmp != "") { // 去掉空字符串 
+            storageList.push_back(strTmp);
+        }
+    }
+    fclose(fpin);
+    return storageList;
+}
+
 void App::saveGameMenu(const GameMenu* gameMenu) {
     std::string fileName = "./storage/" + getDateTime() + ".dat";  // getDateTime 获取日期和时间 
+    
+    appendLineInFile(STORAGE_LIST_FILE, fileName); // 在文件尾新增一行内容 
+    
     FILE* fp = fopen(fileName.c_str(), "wb");       // 将游戏数据写入文件 
     
     fwrite(&mVersion, sizeof(int), 1, fp);          // 输出游戏的版本号 
@@ -120,10 +163,10 @@ void App::loadGameMenu(std::string fileName, GameMenu* gameMenu) { // 从文件加载
     int chessboard_width;  fread(&chessboard_width , sizeof(int), 1, fpin);
     
     if(
-        chessboard_height != CHESSBOARD_HEIGHT ||
+        chessboard_height != CHESSBOARD_HEIGHT || // 检测高度和宽度是否和我们当前的游戏界面匹配 
         chessboard_width  != CHESSBOARD_WIDTH
     ) {
-        MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("ChessboardSizeError"));
+        MenuMgr::getInstance().pushMenuStack(new AboutMenu("LoadFile", {"Chessboard Size Error!"}));
         return; // TODO: 这里应该显示一个文件加载失败的页面 
     }
     
@@ -139,6 +182,7 @@ void App::loadGameMenu(std::string fileName, GameMenu* gameMenu) { // 从文件加载
     fread(&scoreNow, sizeof(int), 1, fpin); // 输入一个当前成绩 
     gameMenu -> setScore(scoreNow);
     
+    fclose(fpin);
     // 载入成功，就别显示什么页面了 
 }
 

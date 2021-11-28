@@ -1,6 +1,6 @@
 // 现在只是一个原型版本，将来一定会更改输出方式 
 
-#include <iostream>
+#include <iostream>  
 #include <cstdlib>
 #include <string>
 
@@ -9,6 +9,7 @@
 #include "GameLostMenu.h"
 #include "GameMenu.h"
 #include "IMenu.h"
+#include "LoadMenu.h"
 #include "MainMenu.h"
 #include "PauseMenu.h"
 #include "Screen.h"
@@ -180,6 +181,11 @@ void View::showAboutMenu(const AboutMenu* aboutMenu) {
         getScreen() -> appendMarginNewLine(listItem.c_str(), 2, 1, ConsoleColor::YELLOW);
     }
     
+    getScreen() -> display(); // 记得 display，不然不显示了 
+}
+
+void View::showLoadMenu(const LoadMenu* loadMenu) { // 直接用 IMenu 输出即可 
+    showIMenu(loadMenu);
     getScreen() -> display(); // 记得 display，不然不显示了 
 }
 

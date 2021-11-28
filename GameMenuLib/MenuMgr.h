@@ -12,6 +12,11 @@ public:
     IMenu* getActiveMenu() const; // 获得当前页面栈栈顶的元素 
     void popMenuStack();          // 弹出页面栈的栈顶元素，露出下方元素 
     void pushMenuStack(IMenu*);   // 向栈顶压入一个新的页面，弹栈时负责释放 
+    void popSecondMenuStack();    // 弹出栈顶第二个页面 
+    
+    // void popAndExit(); // 弹出所有栈中元素并退出程序 
+    
+    IMenu* getSecondMenu(); // 获得位于次上层的界面 
 
 private:
     MenuMgr();

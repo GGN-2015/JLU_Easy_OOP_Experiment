@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+const std::string STORAGE_LIST_FILE = "./storage/storageList.txt"; // 文件名储存路径 
+
 class GameMenu;
 
 class App {
@@ -25,6 +27,9 @@ public:
     static void loadGameMenu(std::string, GameMenu*); // 加载游戏数据 
     
     static const std::vector<std::string>& getAboutMessage(); // 获得关于信息 
+    static void appendLineInFile(std::string fileName, std::string message); // 文件尾追加信息 
+    
+    static std::vector<std::string> getStorageList(); // 获得储存文件序列 
     
 private:
     static const int mVersion; // 记录当前版本 

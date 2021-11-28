@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=1
 CompilerSettings=0000000000000000001000000
-UnitCount=41
+UnitCount=43
 
 [VersionInfo]
 Major=1
@@ -450,8 +450,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit42]
-FileName=AboutMenu.cpp
+[Unit27]
+FileName=TetrisBlock.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -460,8 +460,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit27]
-FileName=TetrisBlock.cpp
+[Unit42]
+FileName=LoadMenu.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit43]
+FileName=LoadMenu.cpp
 CompileCpp=1
 Folder=
 Compile=1

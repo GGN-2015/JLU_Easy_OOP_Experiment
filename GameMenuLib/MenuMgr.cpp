@@ -44,3 +44,21 @@ MenuMgr::~MenuMgr() {
     }
 }
 
+IMenu* MenuMgr::getSecondMenu() { // 获取次栈顶元素 
+    IMenu* tmpTop = mMenuStack.top();
+    mMenuStack.pop(); // 弹出栈顶元素 
+    
+    IMenu* ansMenu = mMenuStack.top();
+    mMenuStack.push(tmpTop); // 栈顶元素存回 
+    
+    return ansMenu;
+}
+
+void MenuMgr::popSecondMenuStack() {
+    IMenu* tmpTop = mMenuStack.top();
+    mMenuStack.pop(); // 弹出栈顶元素 
+    
+    popMenuStack(); // 弹出并析构当前的栈顶元素 
+    
+    mMenuStack.push(tmpTop); // 栈顶元素存回 
+}

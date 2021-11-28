@@ -58,3 +58,7 @@ void IMenu::prevTerm() { // 将 ActiveTerm 更换到上一条目
     if(mActiveTermId < 0) mActiveTermId += getTermsCount();
 }
 
+std::string IMenu::getMenuType() const {
+    return "IMenu";
+}
+

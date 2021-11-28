@@ -8,6 +8,7 @@
 #include "GameLostMenu.h"
 #include "GameMenu.h"
 #include "IMenu.h"
+#include "LoadMenu.h"
 #include "MainMenu.h"
 #include "MenuMgr.h"
 #include "PauseMenu.h"
@@ -38,7 +39,7 @@ void Controller::processMainMenu(MainMenu* mainMenu) { // 处理 imenu 的输入事件
                 //system("pause");
                 break;
             case MainMenu::SaveLoad: // 读取存档 
-                MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("Save/Load"));
+                MenuMgr::getInstance().pushMenuStack(new LoadMenu);
                 break;
             case MainMenu::Settings: // 进行设置 
                 MenuMgr::getInstance().pushMenuStack(new SettingsMenu); // 设置页面进栈 
@@ -108,14 +109,22 @@ void Controller::processPauseMenu(PauseMenu* pauseMenu) {
             MenuMgr::getInstance().popMenuStack(); // 弹栈两次 
         }else
         if(pauseMenu -> getActiveTermId() == PauseMenu::Save) {
-            // TODO: 保存功能与 S - L 界面 
-            MenuMgr::getInstance().pushMenuStack(new UnfinishedMenu("Save"));
+            // 保存当前游戏状态 
+            IMenu* imenu = MenuMgr::getInstance().getSecondMenu(); // 获得位于次上层的游戏界面 
+            
+            GameMenu* gameMenu = dynamic_cast<GameMenu*>(imenu);      // 此处一定是游戏界面 
+            
+            gameMenu -> saveGameMenu(); // 存储游戏状态到文件 
+            
+            std::vector<std::string> files = App::getStorageList();
+            std::string fileNow = files[files.size() - 1]; // 获取最后一个文件名 
+            
+            MenuMgr::getInstance().pushMenuStack(new AboutMenu("SaveSuccessfully", {"Save To File:", fileNow}));
         }
     }
 }
 
-void Controller::lostGame(int finalScore) {
-    // 游戏失败，最终成绩未 final Score 
+void Controller::lostGame(int finalScore) {// 游戏失败，最终成绩未 final Score 
     MenuMgr::getInstance().pushMenuStack(new GameLostMenu(finalScore));
 }
 
@@ -135,6 +144,23 @@ void Controller::processAboutMenu(AboutMenu* aboutMenu) {
     
     if(event.isConfirm()) {
         MenuMgr::getInstance().popMenuStack(); // 回到主菜单 
+    }
+}
+
+void Controller::processLoadMenu(LoadMenu* loadMenu) {
+    Event event;
+    event.operateIMenu(loadMenu);
+    
+    if(event.isConfirm()) {
+        if(loadMenu -> getActiveTermId() != (loadMenu -> getTerms().size() - 1)) {
+            // Back 键在最后 
+            MenuMgr::getInstance().pushMenuStack(
+                new GameMenu(loadMenu -> getTerms()[loadMenu -> getActiveTermId()].c_str())
+            ); // 从文件加载一个游戏 
+            MenuMgr::getInstance().popSecondMenuStack(); // 弹出 Load 界面 
+        }else {
+            MenuMgr::getInstance().popMenuStack();
+        }
     }
 }
 

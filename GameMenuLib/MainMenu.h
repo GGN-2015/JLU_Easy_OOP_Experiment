@@ -14,6 +14,7 @@ public:
     virtual void show() const;
     
     virtual void process();
+    virtual std::string getMenuType() const;
 };
 
 #endif

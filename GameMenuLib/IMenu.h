@@ -11,6 +11,7 @@ public:
     virtual void show() const;                                // 显示这个菜单, 委托给 View 做 
     
     virtual void process();                  // 处理用户事件, 委托给 Controller 
+    virtual std::string getMenuType() const; // 得到 Menu 类型 
     
     int  getActiveTermId() const;    // 计算得到当前被选中的选项的 ID (下标) 
     void setActiveTermId(int newId); // 修改当前被选中的选项 ID 

@@ -5,6 +5,7 @@ class AboutMenu;
 class GameLostMenu;
 class GameMenu;
 class IMenu;
+class LoadMenu;
 class MainMenu;
 class PauseMenu;
 class SettingsMenu;
@@ -20,6 +21,7 @@ public:
     static void processPauseMenu(PauseMenu*);           // 处理一个 PauseMenu 的输入事件 
     static void processGameLostMenu(GameLostMenu*);     // 处理一个 GameLostMenu 的输入事件 
     static void processAboutMenu(AboutMenu*);           // 处理一个 AboutMenu 的输入事件 
+    static void processLoadMenu(LoadMenu*);             // 处理一个 LoadMenu 的输入事件 
     
     static void lostGame(int scoreNow);
     

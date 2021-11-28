@@ -12,6 +12,12 @@ GameMenu::GameMenu() {
     mLastTickTime = clock(); // 上一个 tick 更新的时间 
 }
 
+GameMenu::GameMenu(const char* fileName) { // 从文件加载游戏 
+    mLastTickTime = clock();
+    // TODO: not finished!
+    App::loadGameMenu(fileName, this);
+}
+
 void GameMenu::show() const {
     View::showGameMenu(this); // 委托给 View 
 }
@@ -61,3 +67,8 @@ void GameMenu::saveGameMenu() const {
 void GameMenu::setScore(int score) {
     mScore = score;
 }
+
+std::string GameMenu::getMenuType() const {
+    return "GameMenu";
+}
+

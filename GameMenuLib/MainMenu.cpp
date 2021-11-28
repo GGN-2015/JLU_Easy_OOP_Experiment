@@ -26,3 +26,6 @@ void MainMenu::process() {
     Controller::processMainMenu(this); // 处理 MainMenu 的事件响应 
 }
 
+std::string MainMenu::getMenuType() const {
+    return "MainMenu";
+}

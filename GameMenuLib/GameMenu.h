@@ -28,6 +28,8 @@ public:
     void saveGameMenu() const; // 储存当前游戏状态 
     void setScore(int score);  // 设置游戏分数 
     
+    virtual std::string getMenuType() const; // 计算目录类型 
+    
 private:
     // 从文件中读取数据, 向文件中写入数据 
     void outputToFile(const char* filename) const;
