@@ -14,6 +14,8 @@ public:
     static EmptySyntax* getInstance();
     virtual bool vital();
     
+    virtual std::string getSyntaxName() const;
+    
 private:
     bool availableChar(char c) const; // 所有合法的空白字符 
 };

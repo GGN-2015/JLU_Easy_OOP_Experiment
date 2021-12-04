@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = TestMain.o StringStream.o NumicSyntax.o NameSyntax.o CommentSyntax.o OperatorSyntax.o CommaSyntax.o EmptySyntax.o BraceSyntax.o SyntaxChecker.o QuoteSyntax.o
-LINKOBJ  = TestMain.o StringStream.o NumicSyntax.o NameSyntax.o CommentSyntax.o OperatorSyntax.o CommaSyntax.o EmptySyntax.o BraceSyntax.o SyntaxChecker.o QuoteSyntax.o
+OBJ      = TestMain.o StringStream.o NumicSyntax.o NameSyntax.o CommentSyntax.o OperatorSyntax.o CommaSyntax.o EmptySyntax.o BraceSyntax.o SyntaxChecker.o QuoteSyntax.o Memory.o VarType.o ErrorMgr.o TypeMgr.o MemberMap.o LeftValue.o RightValue.o Test.o
+LINKOBJ  = TestMain.o StringStream.o NumicSyntax.o NameSyntax.o CommentSyntax.o OperatorSyntax.o CommaSyntax.o EmptySyntax.o BraceSyntax.o SyntaxChecker.o QuoteSyntax.o Memory.o VarType.o ErrorMgr.o TypeMgr.o MemberMap.o LeftValue.o RightValue.o Test.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -56,3 +56,27 @@ SyntaxChecker.o: SyntaxChecker.cpp
 
 QuoteSyntax.o: QuoteSyntax.cpp
 	$(CPP) -c QuoteSyntax.cpp -o QuoteSyntax.o $(CXXFLAGS)
+
+Memory.o: Memory.cpp
+	$(CPP) -c Memory.cpp -o Memory.o $(CXXFLAGS)
+
+VarType.o: VarType.cpp
+	$(CPP) -c VarType.cpp -o VarType.o $(CXXFLAGS)
+
+ErrorMgr.o: ErrorMgr.cpp
+	$(CPP) -c ErrorMgr.cpp -o ErrorMgr.o $(CXXFLAGS)
+
+TypeMgr.o: TypeMgr.cpp
+	$(CPP) -c TypeMgr.cpp -o TypeMgr.o $(CXXFLAGS)
+
+MemberMap.o: MemberMap.cpp
+	$(CPP) -c MemberMap.cpp -o MemberMap.o $(CXXFLAGS)
+
+LeftValue.o: LeftValue.cpp
+	$(CPP) -c LeftValue.cpp -o LeftValue.o $(CXXFLAGS)
+
+RightValue.o: RightValue.cpp
+	$(CPP) -c RightValue.cpp -o RightValue.o $(CXXFLAGS)
+
+Test.o: Test.cpp
+	$(CPP) -c Test.cpp -o Test.o $(CXXFLAGS)

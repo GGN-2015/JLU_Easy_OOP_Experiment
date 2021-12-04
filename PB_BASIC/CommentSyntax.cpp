@@ -34,3 +34,7 @@ bool CommentSyntax::vital() {
     return false; // 注释是不重要的 
 }
 
+std::string CommentSyntax::getSyntaxName() const {
+    return "CommentSyntax";
+}
+

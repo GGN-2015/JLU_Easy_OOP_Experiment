@@ -30,3 +30,8 @@ EmptySyntax* EmptySyntax::getInstance() {
 bool EmptySyntax::vital() {
     return false; // 空白字符是不重要的 
 }
+
+std::string EmptySyntax::getSyntaxName() const {
+    return "EmptySyntax";
+}
+

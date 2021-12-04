@@ -12,6 +12,8 @@ public:
     
     static LeftBraceSyntax* getInstance();
     bool vital();
+    
+    virtual std::string getSyntaxName() const;
 };
 
 class RightBraceSyntax: public ISyntax { // ×óÐ¡À¨ºÅ 
@@ -21,6 +23,8 @@ public:
     
     static RightBraceSyntax* getInstance();
     bool vital();
+    
+    virtual std::string getSyntaxName() const;
 };
 
 #endif

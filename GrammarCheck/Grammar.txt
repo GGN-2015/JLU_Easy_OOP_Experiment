@@ -1,0 +1,173 @@
+<程序EOF> ::= <函数定义END> <程序EOF>
+<程序EOF> ::= <结构体定义END> <程序EOF>
+<程序EOF> ::= <函数定义END> [EOF]
+<程序EOF> ::= <结构体定义END> [EOF]
+
+
+<函数定义END> ::= FUNCTION [Ident] ( <参数列表)> <类型名CRLF> <函数体END>
+
+
+<结构体定义END> ::= TYPE [Ident] [CRLF] <结构体内容END>
+
+
+<参数列表)> ::= [Ident] <类型名,> <参数列表)>
+<参数列表)> ::= [Ident] <类型名)>
+<参数列表)> ::= )
+
+
+<类型名,> ::= PTR <类型名,>
+<类型名,> ::= TYPE [Ident] ,
+<类型名,> ::= VAR , 
+
+
+<类型名)> ::= PTR <类型名)>
+<类型名)> ::= TYPE [Ident] )
+<类型名)> ::= VAR ) 
+
+
+<类型名CRLF> ::= PTR <类型名CRLF>
+<类型名CRLF> ::= TYPE [Ident] [CRLF]
+<类型名CRLF> ::= VAR [CRLF]
+
+
+<函数体END> ::= <语句CRLF> <函数体END>
+<函数体END> ::= <语句CRLF> END [CRLF]
+<函数体END> ::= END [CRLF]
+
+
+<结构体内容END> ::= <变量定义CRLF> <结构体内容END>
+<结构体内容END> ::= <变量定义CRLF> END [CRLF]
+
+
+<语句CRLF> ::= IFREAL <表达式CRLF> <条件体ENDIF>
+<语句CRLF> ::= IF <表达式CRLF> <条件体ELSE> <条件体ENDIF>
+<语句CRLF> ::= WHILE <表达式CRLF> <WHILE循环体ENDWHILE>
+<语句CRLF> ::= FOR <表达式=> <表达式TO> <表达式STEPBY> <表达式CRLF> <FOR循环体ENDFOR>
+<语句CRLF> ::= RETURN <表达式CRLF>
+<语句CRLF> ::= RETURN [CRLF]
+<语句CRLF> ::= BREAK [CRLF]
+<语句CRLF> ::= CONTINUE [CRLF]
+<语句CRLF> ::= <变量定义CRLF>
+<语句CRLF> ::= SET <表达式=> <表达式CRLF>
+<语句CRLF> ::= WRITE ( <表达式列表)> [CRLF]
+<语句CRLF> ::= WRITE_CHAR ( <表达式列表)> [CRLF]
+<语句CRLF> ::= READ ( <表达式列表)> [CRLF]
+<语句CRLF> ::= READ_CHAR ( <表达式列表)> [CRLF]
+<语句CRLF> ::= CALL [Ident] ( <表达式列表)> [CRLF]
+
+
+<变量定义CRLF> ::= DEFINE ( <Ident序列)> <类型名CRLF>
+
+
+<表达式CRLF> ::= CALL [Ident] ( <表达式列表)> [CRLF]
+<表达式CRLF> ::= [Ident] [CRLF]
+<表达式CRLF> ::= ( <表达式)> [CRLF]
+<表达式CRLF> ::= REFER ( <表达式)> [CRLF]
+<表达式CRLF> ::= MEMBER ( <表达式,> [Ident] ) [CRLF]
+<表达式CRLF> ::= NEW ( <表达式,> <类型名)> [CRLF]
+<表达式CRLF> ::= POINTER ( <表达式)> [CRLF]
+<表达式CRLF> ::= ADD ( <表达式,> <表达式)> [CRLF]
+<表达式CRLF> ::= SUB ( <表达式,> <表达式)> [CRLF]
+<表达式CRLF> ::= MUL ( <表达式,> <表达式)> [CRLF]
+<表达式CRLF> ::= DIV ( <表达式,> <表达式)> [CRLF]
+<表达式CRLF> ::= MOD ( <表达式,> <表达式)> [CRLF]
+
+
+<条件体ENDIF> ::= <语句CRLF> <条件体ENDIF>
+<条件体ENDIF> ::= <语句CRLF> ENDIF [CRLF]
+<条件体ENDIF> ::= ENDIF [CRLF]
+
+
+<条件体ELSE> ::= <语句CRLF> <条件体ELSE>
+<条件体ELSE> ::= <语句CRLF> ELSE [CRLF]
+<条件体ELSE> ::= ELSE [CRLF]
+
+
+<WHILE循环体ENDWHILE> ::= <语句CRLF> <WHILE循环体ENDWHILE>
+<WHILE循环体ENDWHILE> ::= <语句CRLF> ENDWHILE [CRLF]
+<WHILE循环体ENDWHILE> ::= ENDWHILE [CRLF]
+
+
+<表达式=> ::= CALL [Ident] ( <表达式列表)> =
+<表达式=> ::= [Ident] =
+<表达式=> ::= ( <表达式)> =
+<表达式=> ::= REFER ( <表达式)> =
+<表达式=> ::= MEMBER ( <表达式,> [Ident] ) =
+<表达式=> ::= NEW ( <表达式,> <类型名)> =
+<表达式=> ::= POINTER ( <表达式)> =
+<表达式=> ::= ADD ( <表达式,> <表达式)> =
+<表达式=> ::= SUB ( <表达式,> <表达式)> =
+<表达式=> ::= MUL ( <表达式,> <表达式)> =
+<表达式=> ::= DIV ( <表达式,> <表达式)> =
+<表达式=> ::= MOD ( <表达式,> <表达式)> =
+
+
+<表达式TO> ::= CALL [Ident] ( <表达式列表)> TO
+<表达式TO> ::= [Ident] TO
+<表达式TO> ::= ( <表达式)> TO
+<表达式TO> ::= REFER ( <表达式)> TO
+<表达式TO> ::= MEMBER ( <表达式,> [Ident] ) TO
+<表达式TO> ::= NEW ( <表达式,> <类型名)> TO
+<表达式TO> ::= POINTER ( <表达式)> TO
+<表达式TO> ::= ADD ( <表达式,> <表达式)> TO
+<表达式TO> ::= SUB ( <表达式,> <表达式)> TO
+<表达式TO> ::= MUL ( <表达式,> <表达式)> TO
+<表达式TO> ::= DIV ( <表达式,> <表达式)> TO
+<表达式TO> ::= MOD ( <表达式,> <表达式)> TO
+
+
+<表达式STEPBY> ::= CALL [Ident] ( <表达式列表)> STEPBY
+<表达式STEPBY> ::= [Ident] STEPBY
+<表达式STEPBY> ::= ( <表达式)> STEPBY
+<表达式STEPBY> ::= REFER ( <表达式)> STEPBY
+<表达式STEPBY> ::= MEMBER ( <表达式,> [Ident] ) STEPBY
+<表达式STEPBY> ::= NEW ( <表达式,> <类型名)> STEPBY
+<表达式STEPBY> ::= POINTER ( <表达式)> STEPBY
+<表达式STEPBY> ::= ADD ( <表达式,> <表达式)> STEPBY
+<表达式STEPBY> ::= SUB ( <表达式,> <表达式)> STEPBY
+<表达式STEPBY> ::= MUL ( <表达式,> <表达式)> STEPBY
+<表达式STEPBY> ::= DIV ( <表达式,> <表达式)> STEPBY
+<表达式STEPBY> ::= MOD ( <表达式,> <表达式)> STEPBY
+
+
+<FOR循环体ENDFOR> ::= <语句CRLF> <FOR循环体ENDFOR>
+<FOR循环体ENDFOR> ::= <语句CRLF> ENDFOR [CRLF]
+<FOR循环体ENDFOR> ::= ENDFOR [CRLF]
+
+
+<表达式列表)> ::= <表达式,> <表达式列表)>
+<表达式列表)> ::= <表达式)>
+<表达式列表)> ::= )
+
+
+<Ident序列)> ::= [Ident] , <Ident序列)>
+<Ident序列)> ::= [Ident] )
+<Ident序列)> ::= )
+
+
+<表达式)> ::= CALL [Ident] ( <表达式列表)> )
+<表达式)> ::= [Ident] )
+<表达式)> ::= ( <表达式)> )
+<表达式)> ::= REFER ( <表达式)> )
+<表达式)> ::= MEMBER ( <表达式,> [Ident] ) )
+<表达式)> ::= NEW ( <表达式,> <类型名)> )
+<表达式)> ::= POINTER ( <表达式)> )
+<表达式)> ::= ADD ( <表达式,> <表达式)> )
+<表达式)> ::= SUB ( <表达式,> <表达式)> )
+<表达式)> ::= MUL ( <表达式,> <表达式)> )
+<表达式)> ::= DIV ( <表达式,> <表达式)> )
+<表达式)> ::= MOD ( <表达式,> <表达式)> )
+
+
+<表达式,> ::= CALL [Ident] ( <表达式列表)> ,
+<表达式,> ::= [Ident] ,
+<表达式,> ::= ( <表达式)> ,
+<表达式,> ::= REFER ( <表达式)> ,
+<表达式,> ::= MEMBER ( <表达式,> [Ident] ) ,
+<表达式,> ::= NEW ( <表达式,> <类型名)> ,
+<表达式,> ::= POINTER ( <表达式)> ,
+<表达式,> ::= ADD ( <表达式,> <表达式)> ,
+<表达式,> ::= SUB ( <表达式,> <表达式)> ,
+<表达式,> ::= MUL ( <表达式,> <表达式)> ,
+<表达式,> ::= DIV ( <表达式,> <表达式)> ,
+<表达式,> ::= MOD ( <表达式,> <表达式)> ,

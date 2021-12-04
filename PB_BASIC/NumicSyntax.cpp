@@ -37,3 +37,7 @@ bool NumicSyntax::vital() {
     return true; // 数值类型是重要的 
 }
 
+std::string NumicSyntax::getSyntaxName() const {
+    return "NumicSyntax";
+}
+

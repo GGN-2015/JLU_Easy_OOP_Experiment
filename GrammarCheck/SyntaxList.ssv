@@ -1,0 +1,11 @@
+TYPE [Ident] [CRLF]
+    DEFINE ( [Ident] , [Ident] , [Ident] ) VAR [CRLF]
+    DEFINE ( [Ident] , [Ident] ) PTR VAR [CRLF]
+END [CRLF]
+
+FUNCTION [Ident] ( [Ident] VAR , [Ident] PTR PTR VAR )  VAR [CRLF]
+    DEFINE ( [Ident] ) VAR [CRLF]
+    READ ( [Ident] ) [CRLF]
+    SET [Ident] = CALL [Ident] ( [Ident] ) [CRLF] 
+END [CRLF]
+[EOF]

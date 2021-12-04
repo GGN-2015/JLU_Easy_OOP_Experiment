@@ -11,6 +11,8 @@ public:
     
     static QuoteSyntax* getInstance();
     virtual bool vital();
+    
+    virtual std::string getSyntaxName() const;
 };
 
 #endif

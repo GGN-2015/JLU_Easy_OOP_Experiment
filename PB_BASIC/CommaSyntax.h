@@ -11,6 +11,8 @@ public:
     
     static CommaSyntax* getInstance();
     virtual bool vital();
+    
+    virtual std::string getSyntaxName() const;
 };
 
 #endif 

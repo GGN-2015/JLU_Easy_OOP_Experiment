@@ -43,7 +43,15 @@ bool LeftBraceSyntax::vital() {
     return true; // 括号是重要的 
 }
 
+std::string LeftBraceSyntax::getSyntaxName() const {
+    return "LeftBraceSyntax";
+}
+
 bool RightBraceSyntax::vital() {
     return true; // 括号是重要的 
+}
+
+std::string RightBraceSyntax::getSyntaxName() const {
+    return "RightBraceSyntax";
 }
 

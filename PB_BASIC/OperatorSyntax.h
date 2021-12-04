@@ -16,6 +16,8 @@ public:
     
     virtual bool vital();
     
+    virtual std::string getSyntaxName() const;
+    
 private:
     bool singleChar(char c)    const; // 单字符的算术运算符 
     bool multiChar(char c)     const; // 可能多字符的比较运算符 

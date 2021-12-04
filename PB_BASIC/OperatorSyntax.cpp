@@ -34,7 +34,7 @@ bool OperatorSyntax::availableChar(char c) const {
 }
 
 bool OperatorSyntax::singleChar(char c) const {
-    return c == '+' || c == '-' || c == '*' || c == '/';
+    return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
 }
 
 bool OperatorSyntax::multiChar(char c) const {
@@ -58,5 +58,9 @@ OperatorSyntax*  OperatorSyntax::getInstance() {
 
 bool OperatorSyntax::vital() {
     return true; // 标识符是重要的 
+}
+
+std::string OperatorSyntax::getSyntaxName() const {
+    return "OperatorSyntax";
 }
 

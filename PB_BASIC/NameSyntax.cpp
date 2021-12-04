@@ -36,3 +36,7 @@ bool NameSyntax::vital() {
     return true; // 标识符是重要的 
 }
 
+std::string NameSyntax::getSyntaxName() const {
+    return "NameSyntax";
+}
+

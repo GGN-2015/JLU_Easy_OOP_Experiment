@@ -11,6 +11,8 @@ public:
     
     static CommentSyntax* getInstance();
     virtual bool vital();
+    
+    virtual std::string getSyntaxName() const;
 };
 
 #endif

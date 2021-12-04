@@ -34,3 +34,7 @@ bool QuoteSyntax::vital() {
     return true; // 字符串常量是重要的 
 }
 
+std::string QuoteSyntax::getSyntaxName() const {
+    return "QuoteSyntax";
+}
+

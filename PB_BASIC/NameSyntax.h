@@ -13,6 +13,8 @@ public:
     static NameSyntax* getInstance();
     virtual bool vital();
     
+    virtual std::string getSyntaxName() const;
+    
 private:
     bool availableChar(char c) const;
 }; 

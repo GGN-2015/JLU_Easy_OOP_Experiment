@@ -25,3 +25,7 @@ bool CommaSyntax::vital() {
     return true; // 逗号是重要的 
 }
 
+std::string CommaSyntax::getSyntaxName() const {
+    return "CommaSyntax";
+}
+
