@@ -6,6 +6,7 @@
 #include "Controller.h"
 #include "Event.h"
 #include "GameLostMenu.h"
+#include "Game.h"
 #include "GameMenu.h"
 #include "IMenu.h"
 #include "LoadMenu.h"
@@ -79,7 +80,7 @@ void Controller::processUnfinishedMenu(UnfinishedMenu* unfinishedMenu) {
 }
 
 void Controller::processGameMenu(GameMenu* gameMenu) {
-    gameMenu -> runTick();           // 试图运行一个 tick 
+    Game::getInstance().runTick();   // 试图运行一个 tick 
     Event event;                     // 获取当前的所有事件 
     event.operateGameMenu(gameMenu); // 根据事件对 gameMenu 进行调整，暂时使用 IMenu 的方法 
     
