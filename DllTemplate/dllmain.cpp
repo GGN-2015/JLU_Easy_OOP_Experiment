@@ -44,14 +44,14 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 }
 
 extern "C" DLLIMPORT DllClass* createDllClass() {
-    return new DllClass; // µ÷ÓÃÎÞ²Î¹¹Ôìº¯ÊýÉú³ÉÒ»¸ö¶ÔÏó 
+    return new DllClass; // ï¿½ï¿½ï¿½ï¿½ï¿½Þ²Î¹ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 }
 
 extern "C" DLLIMPORT void deleteDllClass(DllClass* dllClass) { 
-    delete dllClass; // Îö¹¹ 
+    delete dllClass; // ï¿½ï¿½ï¿½ï¿½ 
 }
 
-extern "C" DLLIMPORT void HelloWorld(DllClass* dllClass) { // ÀÏ×ÓÖ±½ÓÖØÐ´Ò»¸ö 
+extern "C" DLLIMPORT void HelloWorld(DllClass* dllClass) { // ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Ð´Ò»ï¿½ï¿½ 
     dllClass -> HelloWorld();
 }
 
