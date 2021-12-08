@@ -6,6 +6,8 @@
 
 #include "IMenu.h"
 
+const int MAX_LOAD_SIZE = 6; // 只显示最后六个存档 
+
 class LoadMenu: public IMenu {
 public:
     virtual std::string getTitle() const;                     // 获取菜单的标题 
